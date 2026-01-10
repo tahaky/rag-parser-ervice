@@ -46,7 +46,7 @@
 
 ### 6. Database ✅
 - ✅ SQLAlchemy models:
-  - `DocumentStructure`: id, document_id, format, structure (JSONB), metadata (JSONB), stats (JSONB), parsed_at, parse_duration_ms, parser_version, checksum
+  - `DocumentStructure`: id, document_id, format, structure (JSONB), doc_metadata (JSONB), stats (JSONB), parsed_at, parse_duration_ms, parser_version, checksum
   - `Document`: id, filename, format, status, error_message, uploaded_at, updated_at
 - ✅ Idempotency: check existing structure by document_id and checksum
 - ✅ Alembic migrations (initial schema in 001_initial_schema.py)

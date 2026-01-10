@@ -181,7 +181,7 @@ Returns Prometheus metrics in text format.
 - `document_id`: UUID (indexed)
 - `format`: String
 - `structure`: JSONB (parsed structure)
-- `metadata`: JSONB (document metadata)
+- `doc_metadata`: JSONB (document metadata)
 - `stats`: JSONB (statistics)
 - `parsed_at`: DateTime
 - `parse_duration_ms`: Integer

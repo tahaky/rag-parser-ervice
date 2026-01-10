@@ -30,7 +30,7 @@ class DocumentStructure(Base):
     document_id = Column(UUID(as_uuid=True), nullable=False, index=True)
     format = Column(String(50), nullable=False)
     structure = Column(JSONB, nullable=False)
-    metadata = Column(JSONB, nullable=False)
+    doc_metadata = Column(JSONB, nullable=False)
     stats = Column(JSONB, nullable=False)
     parsed_at = Column(DateTime, default=datetime.utcnow, nullable=False)
     parse_duration_ms = Column(Integer, nullable=False)

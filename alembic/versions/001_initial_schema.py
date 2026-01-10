@@ -36,7 +36,7 @@ def upgrade() -> None:
         sa.Column('document_id', postgresql.UUID(as_uuid=True), nullable=False),
         sa.Column('format', sa.String(50), nullable=False),
         sa.Column('structure', postgresql.JSONB(), nullable=False),
-        sa.Column('metadata', postgresql.JSONB(), nullable=False),
+        sa.Column('doc_metadata', postgresql.JSONB(), nullable=False),
         sa.Column('stats', postgresql.JSONB(), nullable=False),
         sa.Column('parsed_at', sa.DateTime(), nullable=False),
         sa.Column('parse_duration_ms', sa.Integer(), nullable=False),
