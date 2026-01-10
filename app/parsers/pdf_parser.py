@@ -1,4 +1,4 @@
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Tuple
 import pdfplumber
 import fitz  # PyMuPDF
 
@@ -102,7 +102,7 @@ class PdfParser(BaseParser):
             "hash": self.calculate_hash(table_text),
         }
 
-    def _parse_with_pymupdf(self, file_path: str) -> tuple[List[Dict[str, Any]], int]:
+    def _parse_with_pymupdf(self, file_path: str) -> Tuple[List[Dict[str, Any]], int]:
         """Fallback parser using PyMuPDF."""
         pages = []
         total_text_length = 0

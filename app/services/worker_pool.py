@@ -216,7 +216,7 @@ class WorkerPool:
 
         # Wait for in-flight jobs with timeout
         logger.info("waiting_for_in_flight_jobs", count=len(self.in_flight_jobs))
-        self.executor.shutdown(wait=True, timeout=settings.graceful_shutdown_timeout)
+        self.executor.shutdown(wait=True)
 
         # Close clients
         self.consumer.stop()
