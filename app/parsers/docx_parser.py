@@ -34,10 +34,14 @@ class DocxParser(BaseParser):
 
         for element in doc.element.body:
             if isinstance(element, CT_P):
-                para = element._element
-                paragraph = doc.element.body.index(element)
-                if paragraph < len(doc.paragraphs):
-                    p = doc.paragraphs[paragraph]
+                # Find the corresponding Paragraph object
+                p = None
+                for para in doc.paragraphs:
+                    if para._element is element:
+                        p = para
+                        break
+                
+                if p is not None:
                     text = p.text.strip()
                     if text:
                         para_data = {
