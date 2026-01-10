@@ -116,13 +116,16 @@ Using kafkacat or similar:
 
 ```bash
 echo '{
-  "event_id": "test-001",
   "document_id": "550e8400-e29b-41d4-a716-446655440000",
-  "filename": "test.pdf",
-  "format": "pdf",
+  "original_name": "test.pdf",
   "storage_path": "test.pdf",
-  "uploaded_at": "2024-01-10T10:00:00Z",
-  "checksum": null
+  "file_size": 1024000,
+  "mime_type": "application/pdf",
+  "md5_checksum": "d41d8cd98f00b204e9800998ecf8427e",
+  "user_id": "user-123",
+  "organization_id": "org-456",
+  "metadata": {},
+  "timestamp": "2024-01-10T10:00:00Z"
 }' | kafkacat -b localhost:9092 -t document.uploaded -P
 ```
 

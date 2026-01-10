@@ -34,6 +34,11 @@ class DocumentService:
         format: str,
         storage_path: str,
         checksum: Optional[str] = None,
+        file_size: Optional[int] = None,
+        mime_type: Optional[str] = None,
+        user_id: Optional[str] = None,
+        organization_id: Optional[str] = None,
+        metadata: Optional[Dict[str, Any]] = None,
     ) -> Dict[str, Any]:
         """
         Process a document: download, parse, and save.
@@ -44,6 +49,11 @@ class DocumentService:
             format: Document format
             storage_path: Path in MinIO
             checksum: Optional checksum for idempotency
+            file_size: Optional file size in bytes
+            mime_type: Optional MIME type
+            user_id: Optional user ID
+            organization_id: Optional organization ID
+            metadata: Optional additional metadata
 
         Returns:
             Dictionary with structure_id and parse_duration_ms
@@ -77,7 +87,14 @@ class DocumentService:
                     }
 
             # Download file
-            logger.info("downloading_document", document_id=document_id, storage_path=storage_path)
+            logger.info(
+                "downloading_document", 
+                document_id=document_id, 
+                storage_path=storage_path,
+                file_size=file_size,
+                user_id=user_id,
+                organization_id=organization_id
+            )
             temp_file = self.storage.download_file(storage_path)
 
             # Parse document
