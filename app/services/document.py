@@ -168,7 +168,7 @@ class DocumentService:
                     document_id=uuid.UUID(document_id),
                     format=format,
                     structure=parsed_data["structure"],
-                    metadata=parsed_data["metadata"],
+                    doc_metadata=parsed_data["metadata"],
                     stats=parsed_data["stats"],
                     parsed_at=datetime.utcnow(),
                     parse_duration_ms=parse_duration_ms,
