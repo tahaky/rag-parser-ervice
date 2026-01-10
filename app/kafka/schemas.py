@@ -7,13 +7,46 @@ from datetime import datetime
 class DocumentUploadedEvent(BaseModel):
     """Schema for document.uploaded event."""
 
-    event_id: str = Field(..., description="Unique event ID")
     document_id: str = Field(..., description="Document UUID")
-    filename: str = Field(..., description="Original filename")
-    format: str = Field(..., description="Document format (docx, pdf, pptx, xlsx)")
+    original_name: str = Field(..., description="Original filename")
     storage_path: str = Field(..., description="Object key in MinIO")
-    uploaded_at: str = Field(..., description="Upload timestamp")
-    checksum: Optional[str] = Field(None, description="MD5 checksum if available")
+    file_size: int = Field(..., description="File size in bytes")
+    mime_type: str = Field(..., description="MIME type of the document")
+    md5_checksum: str = Field(..., description="MD5 checksum")
+    user_id: str = Field(..., description="User ID who uploaded the document")
+    organization_id: str = Field(..., description="Organization ID")
+    metadata: Dict[str, Any] = Field(default_factory=dict, description="Additional metadata")
+    timestamp: str = Field(..., description="Upload timestamp")
+    
+    def get_format(self) -> str:
+        """
+        Derive document format from MIME type for backward compatibility.
+        
+        Returns:
+            Format string (docx, pdf, pptx, xlsx)
+        """
+        mime_to_format = {
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document": "docx",
+            "application/msword": "doc",
+            "application/pdf": "pdf",
+            "application/vnd.openxmlformats-officedocument.presentationml.presentation": "pptx",
+            "application/vnd.ms-powerpoint": "ppt",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": "xlsx",
+            "application/vnd.ms-excel": "xls",
+        }
+        
+        # Try exact match first
+        if self.mime_type in mime_to_format:
+            return mime_to_format[self.mime_type]
+        
+        # Try to extract from filename extension as fallback
+        if "." in self.original_name:
+            ext = self.original_name.rsplit(".", 1)[-1].lower()
+            if ext in ["docx", "doc", "pdf", "pptx", "ppt", "xlsx", "xls"]:
+                return ext
+        
+        # Default to pdf if cannot determine
+        return "pdf"
 
 
 class DocumentParsedEvent(BaseModel):

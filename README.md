@@ -127,13 +127,18 @@ Returns Prometheus metrics in text format.
 **document.uploaded** - Document upload events
 ```json
 {
-  "event_id": "uuid",
   "document_id": "uuid",
-  "filename": "document.pdf",
-  "format": "pdf",
+  "original_name": "document.pdf",
   "storage_path": "documents/file.pdf",
-  "uploaded_at": "2024-01-10T10:00:00Z",
-  "checksum": "md5-hash"
+  "file_size": 1024000,
+  "mime_type": "application/pdf",
+  "md5_checksum": "md5-hash",
+  "user_id": "user-123",
+  "organization_id": "org-456",
+  "metadata": {
+    "key": "value"
+  },
+  "timestamp": "2024-01-10T10:00:00Z"
 }
 ```
 

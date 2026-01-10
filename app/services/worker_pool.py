@@ -92,7 +92,12 @@ class WorkerPool:
                 return
 
             # Submit job to thread pool
-            logger.info("submitting_job", document_id=event.document_id)
+            logger.info(
+                "submitting_job", 
+                document_id=event.document_id,
+                user_id=event.user_id,
+                organization_id=event.organization_id
+            )
             
             future = self.executor.submit(
                 self._process_document_with_retry,
@@ -122,20 +127,28 @@ class WorkerPool:
         try:
             while retry_count <= settings.max_retries:
                 try:
+                    # Get format from mime_type
+                    format = event.get_format()
+                    
                     # Process document
                     result = self.document_service.process_document(
                         document_id=document_id,
-                        filename=event.filename,
-                        format=event.format,
+                        filename=event.original_name,
+                        format=format,
                         storage_path=event.storage_path,
-                        checksum=event.checksum,
+                        checksum=event.md5_checksum,
+                        file_size=event.file_size,
+                        mime_type=event.mime_type,
+                        user_id=event.user_id,
+                        organization_id=event.organization_id,
+                        metadata=event.metadata,
                     )
 
                     # Publish success event
                     self.producer.publish_parsed_event(
                         document_id=document_id,
                         structure_id=result["structure_id"],
-                        format=event.format,
+                        format=format,
                         parsed_at=datetime.utcnow(),
                         parse_duration_ms=result["parse_duration_ms"],
                     )
