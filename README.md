@@ -120,6 +120,44 @@ GET /metrics
 
 Returns Prometheus metrics in text format.
 
+### Get Document by ID
+```bash
+GET /documents/{document_id}
+```
+
+Retrieves document metadata and parsed structure by document ID.
+
+**Parameters:**
+- `document_id` (path): Document UUID
+
+**Response:**
+```json
+{
+  "document_id": "uuid",
+  "filename": "document.pdf",
+  "format": "pdf",
+  "status": "parsed",
+  "error_message": null,
+  "uploaded_at": "2024-01-10T10:00:00",
+  "updated_at": "2024-01-10T10:05:00",
+  "structure": {
+    "structure_id": "uuid",
+    "structure": { ... },
+    "metadata": { ... },
+    "stats": { ... },
+    "parsed_at": "2024-01-10T10:05:00",
+    "parse_duration_ms": 1234,
+    "parser_version": "1.0.0",
+    "checksum": "abc123"
+  }
+}
+```
+
+**Status Codes:**
+- `200`: Success
+- `400`: Invalid UUID format
+- `404`: Document not found
+
 ## Kafka Topics
 
 ### Consumed Topics
